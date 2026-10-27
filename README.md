@@ -29,14 +29,22 @@ This gap implements hysteresis, reducing repeated switching around a single thre
 
 The source comments describe a 5 ms timer overflow using preload `0xB2` and prescaler 1024. The actual interval depends on the MCU clock. Match the clock, display circuitry, analogue input, and external fan driver to the original hardware before programming a board.
 
-## Build and inspect
+## Reproduce the firmware build
 
-1. Open [Finial Project.atsln](Finial%20Project.atsln) in a compatible AVR Studio environment.
-2. Confirm the selected device is ATmega328P and that the AVR GCC toolchain is available.
-3. Inspect the I/O mapping and clock/fuse configuration for your board.
-4. Build locally, then use an appropriate programmer to flash the target only after checking the wiring.
+**Prerequisites:** Git, a compatible Atmel/Microchip Studio installation with AVR GCC and ATmega328P device support. Physical execution additionally needs an ATmega328P board, programmer, matching clock/fuses, analogue sensor circuit, BCD/display driver and digit multiplexing hardware, and a suitable external fan driver.
 
-The original **Finial Project** spelling is retained because the solution uses those paths. No compiled firmware is supplied.
+```sh
+git clone https://github.com/ChuaJiaSheng/avr-temperature-controlled-fan.git
+cd avr-temperature-controlled-fan
+```
+
+1. Open [Finial Project.atsln](Finial%20Project.atsln) in Studio.
+2. Verify the selected MCU is **ATmega328P** and the AVR GCC toolchain is selected. Keep the solution/project paths unchanged.
+3. Select Debug or Release and choose **Build → Build Solution**. **Expected build result:** an ELF is produced in that configuration's output directory under `Finial Project/`.
+4. For a board, verify the pin mapping above, clock/fuses, reference voltage, sensor scaling, and fan driver against the actual circuitry before flashing. Use Studio's device-programming function with the correct programmer and generated firmware.
+5. Observe display refresh and compare the converted reading with a known input. The intended control check is PD7 HIGH at `>=260`, LOW at `<=250`, and unchanged between those thresholds.
+
+**Reproduction limits:** the repository provides the firmware project, but not a complete physical-board specification, calibrated sensor transfer function, or confirmed fuse/programmer configuration. The source comments' 5 ms refresh interval depends on the clock. Building the firmware and reproducing the complete physical system are separate tasks; do not treat the numbers 260/250 as calibrated Celsius values without confirming the conversion.
 
 ## Source guide
 
