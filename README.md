@@ -51,6 +51,6 @@ Main source: [222257U_Project_1-02-2024.c](Finial%20Project/222257U_Project_1-02
 | `interruptInit`, `TIMER0_OVF_vect` | Configure and service display refresh |
 | `main` | Initialise peripherals and apply hysteresis |
 
-## Provenance and verification
+## Author
 
-Preserved from the supplied Chua Jia Sheng ATmega328P coursework project. Source and project paths were inspected. AVR compilation, fuse settings, display timing, sensor calibration, and physical fan operation have not been verified here.
+Chua Jia Sheng.
